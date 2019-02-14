@@ -10,6 +10,7 @@ RUN apk update && apk upgrade \
     ttf-freefont \
     chromium@edge \
     nss@edge \
+    harfbuzz@edge \
     grep \
     && rm -rf /var/lib/apt/lists/* \
     /var/cache/apk/* \
@@ -25,8 +26,9 @@ RUN mkdir -p /usr/src/app \
 USER chrome
 WORKDIR /usr/src/app
 
-ENV CHROME_PATH=/usr/bin/chromium-browser
-ENV CHROME_BIN=/usr/bin/chromium-browser
+ENV CHROME_PATH /usr/bin/chromium-browser
+ENV CHROME_BIN /usr/bin/chromium-browser
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 # Add Chromium entrypoint
-ENTRYPOINT ["/usr/bin/chromium-browser"]
+ENTRYPOINT ["/usr/bin/chromium-browser", "--no-sandbox", "--no-zygote"]
